@@ -1,6 +1,7 @@
 import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./Button";
+import { PAGINATION } from "../utils/constants";
 
 interface PaginationProps {
   currentPage: number;
@@ -19,22 +20,19 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
-    const maxVisible = 5;
+    const maxVisible = PAGINATION.MAX_VISIBLE_PAGES;
 
     if (totalPages <= maxVisible) {
-      // Show all pages if total is small
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Always show first page
       pages.push(1);
 
       if (currentPage > 3) {
         pages.push("...");
       }
 
-      // Show pages around current page
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
 
@@ -46,7 +44,6 @@ export const Pagination: React.FC<PaginationProps> = ({
         pages.push("...");
       }
 
-      // Always show last page
       pages.push(totalPages);
     }
 

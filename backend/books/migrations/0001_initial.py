@@ -15,14 +15,21 @@ class Migration(migrations.Migration):
             name='Book',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('author', models.CharField(max_length=255)),
+                ('title', models.CharField(db_index=True, max_length=255)),
+                ('author', models.CharField(db_index=True, max_length=255)),
                 ('description', models.TextField(blank=True)),
-                ('book_type', models.CharField(blank=True, choices=[('novel', 'Novel'), ('short_stories', 'Short Stories'), ('poetry', 'Poetry')], max_length=50, null=True)),
-                ('genre', models.CharField(blank=True, choices=[('fiction', 'Fiction'), ('fantasy', 'Fantasy'), ('sci_fi', 'Science Fiction'), ('biography', 'Biography'), ('self_help', 'Self Help')], max_length=50, null=True)),
+                ('book_type', models.CharField(blank=True, choices=[('novel', 'Novel'), ('short_stories', 'Short Stories'), ('poetry', 'Poetry')], db_index=True, max_length=50, null=True)),
+                ('genre', models.CharField(blank=True, choices=[('fiction', 'Fiction'), ('fantasy', 'Fantasy'), ('sci_fi', 'Science Fiction'), ('biography', 'Biography'), ('self_help', 'Self Help')], db_index=True, max_length=50, null=True)),
                 ('cover_image', models.ImageField(blank=True, null=True, upload_to='book_covers/')),
-                ('published_year', models.IntegerField(blank=True, null=True)),
+                ('published_year', models.IntegerField(blank=True, db_index=True, null=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
+            options={
+                'indexes': [
+                    models.Index(fields=['title', 'author'], name='books_book_title_author_idx'),
+                    models.Index(fields=['genre', 'book_type'], name='books_book_genre_type_idx'),
+                    models.Index(fields=['published_year'], name='books_book_published_year_idx'),
+                ],
+            },
         ),
     ]

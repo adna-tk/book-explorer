@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { authAPI, type User } from "../api/auth";
+import { useAuth } from "./useAuth";
 
 export const useCurrentUser = () => {
+  const { isAuthenticated } = useAuth();
+
   return useQuery<User>({
     queryKey: ["currentUser"],
     queryFn: () => authAPI.getCurrentUser(),
-    enabled: !!localStorage.getItem("access_token"),
+    enabled: isAuthenticated,
     retry: false,
-    staleTime: 5 * 60 * 1000, 
+    staleTime: 5 * 60 * 1000,
   });
 };

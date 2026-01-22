@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useBooks, useChoices, type PaginatedResponse } from "../hooks/useBooks";
+import React, { useState, useEffect, useMemo } from "react";
+import { useBooks, useChoices } from "../hooks/useBooks";
 import { Card } from "../components/Card";
 import { useNavigate } from "react-router-dom";
 import { BooksSkeleton } from "../components/BookSkeleton";
 import { Input } from "../components/Input";
 import { CustomDropdown } from "../components/Dropdown";
 import { Pagination } from "../components/Pagination";
+import { useDebounce } from "../hooks/useDebounce";
+import { SORT_OPTIONS, DEBOUNCE_DELAY } from "../utils/constants";
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -17,26 +19,38 @@ export const Home: React.FC = () => {
   const [ordering, setOrdering] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Reset to page 1 when filters change
+  const debouncedSearch = useDebounce(search, DEBOUNCE_DELAY);
+
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, genre, bookType, ordering]);
+  }, [debouncedSearch, genre, bookType, ordering]);
 
   const { data: booksData, isLoading, isError } = useBooks({
-    search: search || undefined,
+    search: debouncedSearch || undefined,
     genre: genre || undefined,
     book_type: bookType || undefined,
     ordering: ordering || undefined,
     page: currentPage,
   });
 
-  const paginatedData = booksData as PaginatedResponse<Book> | undefined;
-  const books = paginatedData?.results ?? [];
-  const pagination = paginatedData ? {
-    currentPage: paginatedData.current_page,
-    totalPages: paginatedData.total_pages,
-    pageSize: paginatedData.page_size,
-    count: paginatedData.count,
+  const sortOptions = useMemo(() => SORT_OPTIONS, []);
+
+  const genreOptions = useMemo(() => [
+    { value: '', label: 'All genres' },
+    ...(choices?.genres || [])
+  ], [choices?.genres]);
+
+  const bookTypeOptions = useMemo(() => [
+    { value: '', label: 'All book types' },
+    ...(choices?.book_types || [])
+  ], [choices?.book_types]);
+
+  const books = booksData?.results ?? [];
+  const pagination = booksData ? {
+    currentPage: booksData.current_page,
+    totalPages: booksData.total_pages,
+    pageSize: booksData.page_size,
+    count: booksData.count,
   } : null;
 
   const handleBookClick = (id: number) => {
@@ -63,7 +77,7 @@ export const Home: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
           <CustomDropdown
-            options={[{ value: '', label: 'All genres' }, ...(choices?.genres || [])]}
+            options={genreOptions}
             value={genre}
             onChange={(v) => setGenre(String(v))}
             placeholder="Select genre"
@@ -71,7 +85,7 @@ export const Home: React.FC = () => {
           />
 
           <CustomDropdown
-            options={[{ value: '', label: 'All book types' }, ...(choices?.book_types || [])]}
+            options={bookTypeOptions}
             value={bookType}
             onChange={(v) => setBookType(String(v))}
             placeholder="Select book type"
@@ -79,17 +93,7 @@ export const Home: React.FC = () => {
           />
 
           <CustomDropdown
-            options={[
-              { value: '', label: 'Default (Title)' },
-              { value: 'published_year', label: 'Year: Oldest First' },
-              { value: '-published_year', label: 'Year: Newest First' },
-              { value: 'title', label: 'Title: A-Z' },
-              { value: '-title', label: 'Title: Z-A' },
-              { value: 'author', label: 'Author: A-Z' },
-              { value: '-author', label: 'Author: Z-A' },
-              { value: '-created_at', label: 'Newest Added' },
-              { value: 'created_at', label: 'Oldest Added' },
-            ]}
+            options={sortOptions}
             value={ordering}
             onChange={(v) => setOrdering(String(v))}
             placeholder="Sort by"

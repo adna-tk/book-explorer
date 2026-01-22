@@ -9,6 +9,7 @@ interface NoteProps {
     onDelete?: () => void | Promise<void>;
     onCancel?: () => void;
     placeholder?: string;
+    isSaving?: boolean;
 }
 
 export const Note: React.FC<NoteProps> = ({
@@ -18,10 +19,13 @@ export const Note: React.FC<NoteProps> = ({
     onDelete,
     onCancel,
     placeholder = "Write a note...",
+    isSaving: externalIsSaving = false,
 }) => {
     const [isEditing, setIsEditing] = useState(!value);
     const [note, setNote] = useState(value);
-    const [isSaving, setIsSaving] = useState(false);
+    const [internalIsSaving, setInternalIsSaving] = useState(false);
+    
+    const isSaving = externalIsSaving || internalIsSaving;
 
     useEffect(() => {
         setNote(value);
@@ -29,14 +33,18 @@ export const Note: React.FC<NoteProps> = ({
     }, [value]);
 
     const handleSave = async () => {
-        setIsSaving(true);
+        if (!externalIsSaving) {
+            setInternalIsSaving(true);
+        }
         try {
             await onSave(note);
             setIsEditing(false);
         } catch (error) {
             console.error("Failed to save note:", error);
         } finally {
-            setIsSaving(false);
+            if (!externalIsSaving) {
+                setInternalIsSaving(false);
+            }
         }
     };
 

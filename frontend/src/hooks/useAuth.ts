@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { authAPI, type LoginCredentials } from "../api/auth";
 
@@ -7,7 +7,7 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const login = async (credentials: LoginCredentials) => {
+  const login = useCallback(async (credentials: LoginCredentials) => {
     setError(null);
     setIsLoading(true);
 
@@ -22,6 +22,7 @@ export const useAuth = () => {
       return response;
     } catch (err: any) {
       const errorMessage = 
+        err.response?.data?.error?.message ||
         err.response?.data?.detail || 
         err.response?.data?.message || 
         "Invalid username or password";
@@ -30,22 +31,22 @@ export const useAuth = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [navigate]);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     navigate("/login");
-  };
+  }, [navigate]);
 
-  const isAuthenticated = () => {
+  const isAuthenticated = useMemo(() => {
     return !!localStorage.getItem("access_token");
-  };
+  }, []);
 
   return {
     login,
     logout,
-    isAuthenticated: isAuthenticated(),
+    isAuthenticated,
     isLoading,
     error,
   };

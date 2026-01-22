@@ -121,6 +121,7 @@ export const BookDetails: React.FC = () => {
                                         onSave={handleCreateNote}
                                         onCancel={() => setIsAddingNewNote(false)}
                                         placeholder="Write your note about this book..."
+                                        isSaving={createNoteMutation.isPending}
                                     />
                                 )}
 
@@ -132,6 +133,7 @@ export const BookDetails: React.FC = () => {
                                         onSave={(noteText) => handleUpdateNote(note.id, noteText)}
                                         onDelete={() => handleDeleteNote(note.id)}
                                         placeholder="Write your note about this book..."
+                                        isSaving={updateNoteMutation.isPending}
                                     />
                                 ))}
 

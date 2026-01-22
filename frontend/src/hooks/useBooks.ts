@@ -38,12 +38,11 @@ const fetchChoices = async (): Promise<Choice> => {
 };
 
 export const useBooks = (params: BookQueryParams) => {
-  return useQuery({
+  return useQuery<PaginatedResponse<Book>>({
     queryKey: ["books", params],
     queryFn: () => fetchBooks(params),
-    placeholderData: (prev) => prev,
-    keepPreviousData: true,
-  }) as ReturnType<typeof useQuery<PaginatedResponse<Book>>>;
+    placeholderData: (previousData) => previousData,
+  });
 };
 
 
