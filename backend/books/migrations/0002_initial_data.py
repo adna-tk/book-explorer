@@ -3,7 +3,6 @@ from django.db import migrations
 def create_initial_books(apps, schema_editor):
     Book = apps.get_model('books', 'Book')
     
-    # Harlan Coben books
     Book.objects.create(
         title="Run Away",
         author="Harlan Coben",
@@ -54,11 +53,10 @@ def create_initial_books(apps, schema_editor):
         )
     )
 
-    # Self-help books
     Book.objects.create(
         title="The Selfish Gene",
         author="Richard Dawkins",
-        book_type="non_fiction",
+       book_type="novel",
         genre="self_help",
         published_year=1976,
         cover_image=None,
@@ -75,7 +73,7 @@ def create_initial_books(apps, schema_editor):
     Book.objects.create(
         title="When the Body Says No",
         author="Gabor Maté",
-        book_type="non_fiction",
+        book_type="novel",
         genre="self_help",
         published_year=2003,
         cover_image=None,
@@ -91,7 +89,7 @@ def create_initial_books(apps, schema_editor):
     Book.objects.create(
         title="Atomic Habits",
         author="James Clear",
-        book_type="non_fiction",
+        book_type="novel",
         genre="self_help",
         published_year=2018,
         cover_image=None,
@@ -106,7 +104,7 @@ def create_initial_books(apps, schema_editor):
     Book.objects.create(
         title="The Monk Who Sold His Ferrari",
         author="Robin Sharma",
-        book_type="non_fiction",
+        book_type="novel",
         genre="self_help",
         published_year=1997,
         cover_image=None,
@@ -119,7 +117,6 @@ def create_initial_books(apps, schema_editor):
         )
     )
 
-    # Fiction / Fantasy / Classics
     Book.objects.create(
         title="One Hundred Years of Solitude",
         author="Gabriel Garcia Marquez",
@@ -198,7 +195,6 @@ def create_initial_books(apps, schema_editor):
         )
     )
 
-    # Sci-fi / Fantasy
     Book.objects.create(
         title="Dune",
         author="Frank Herbert",
@@ -228,6 +224,42 @@ def create_initial_books(apps, schema_editor):
             "During his first year, Harry makes friends and enemies, learns magic, and uncovers the mystery of the Philosopher's Stone. "
             "The book deals with friendship, courage, fighting evil, and self-discovery. "
             "It became a global phenomenon, launching one of the most famous literary and film franchises of all time."
+        )
+    )
+
+    Book.objects.create(
+        title="Leaves of Grass",
+        author="Walt Whitman",
+        book_type="poetry",
+        genre="fiction",
+        published_year=1855,
+        cover_image=None,
+        description=(
+            "Leaves of Grass is a collection of poetry by American poet Walt Whitman, first published in 1855. "
+            "This groundbreaking work revolutionized American poetry with its free verse style and celebration of democracy, "
+            "nature, love, and friendship. Whitman's innovative use of free verse broke away from traditional poetic forms, "
+            "creating a uniquely American voice that celebrated the common person and the beauty of everyday life. "
+            "The collection includes some of the most famous poems in American literature, such as 'Song of Myself' and 'O Captain! My Captain!'. "
+            "Whitman continuously revised and expanded the collection throughout his life, with the final 'deathbed edition' containing over 400 poems. "
+            "Leaves of Grass is considered one of the most important works in American literature and has influenced countless poets worldwide."
+        )
+    )
+    Book.objects.create(
+        title="The Waste Land",
+        author="T.S. Eliot",
+        book_type="poetry",
+        genre="fiction",
+        published_year=1922,
+        cover_image=None,
+        description=(
+            "The Waste Land is a landmark poem by T.S. Eliot, first published in 1922. This modernist masterpiece is widely regarded "
+            "as one of the most important poems of the 20th century. The poem is divided into five sections and uses a fragmented, "
+            "collage-like structure to explore themes of disillusionment, spiritual desolation, and the decay of Western civilization "
+            "in the aftermath of World War I. Eliot weaves together multiple voices, languages, and literary allusions, drawing from "
+            "mythology, religion, and classical literature to create a complex portrait of a world in crisis. "
+            "The poem's innovative use of stream-of-consciousness, multiple narrators, and dense intertextuality revolutionized modern poetry. "
+            "Despite its challenging nature, The Waste Land has become one of the most studied and influential works in English literature, "
+            "establishing Eliot as a leading voice of the modernist movement."
         )
     )
 

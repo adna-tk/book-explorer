@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=255)),
                 ('author', models.CharField(max_length=255)),
                 ('description', models.TextField(blank=True)),
-                ('book_type', models.CharField(blank=True, choices=[('novel', 'Novel'), ('short_stories', 'Short Stories'), ('poetry', 'Poetry'), ('non_fiction', 'Non-fiction')], max_length=50, null=True)),
+                ('book_type', models.CharField(blank=True, choices=[('novel', 'Novel'), ('short_stories', 'Short Stories'), ('poetry', 'Poetry')], max_length=50, null=True)),
                 ('genre', models.CharField(blank=True, choices=[('fiction', 'Fiction'), ('fantasy', 'Fantasy'), ('sci_fi', 'Science Fiction'), ('biography', 'Biography'), ('self_help', 'Self Help')], max_length=50, null=True)),
                 ('cover_image', models.ImageField(blank=True, null=True, upload_to='book_covers/')),
                 ('published_year', models.IntegerField(blank=True, null=True)),
