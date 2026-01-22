@@ -28,12 +28,12 @@ export const Header: React.FC = () => {
 
   return (
     <header className="border-b border-secondary/30 p-4">
-      <div className="mx-auto max-w-7xl w-full flex items-center justify-between px-4">
-        <h1 className="text-3xl font-bold text-secondary cursor-pointer" onClick={() => navigate('/')}>
+      <div className="mx-auto max-w-7xl w-full flex flex-col sm:flex-row items-center justify-between gap-4 px-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-secondary cursor-pointer" onClick={() => navigate('/')}>
           Book Explorer
         </h1>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Button
             variant="secondary"
             className="rounded-full p-2"
@@ -43,23 +43,23 @@ export const Header: React.FC = () => {
           />
 
           {isAuthenticated && user ? (
-            <div className="flex items-center gap-3">
-              <span className="text-secondary">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <span className="text-secondary text-sm sm:text-base hidden sm:inline">
                 Hello, <span className="font-semibold">{user.first_name || user.username}</span>
               </span>
               <Button
                 variant="secondary"
-                className="rounded-3xl"
+                className="rounded-3xl text-sm sm:text-base"
                 icon={<LogOut size={16} />}
                 onClick={logout}
               >
-                Logout
+                <span>Logout</span>
               </Button>
             </div>
           ) : (
             <Button
               variant="primary"
-              className="rounded-3xl w-30"
+              className="rounded-3xl text-sm sm:text-base"
               icon={<LogIn size={16} />}
               onClick={() => navigate("/login")}
             >

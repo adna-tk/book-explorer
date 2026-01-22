@@ -69,43 +69,44 @@ export const BookDetails: React.FC = () => {
                 Back
             </Button>
 
-            <div className="flex flex-col md:flex-row gap-6 ">
-                <img
-                    src={book.cover_image ? book.cover_image : PlaceholderImage}
-                    alt={book.title}
-                    className="mb-4 h-70 w-48 rounded-lg object-cover"
-                />
+            <div className="flex flex-col md:flex-row gap-6">
+                <div className="flex justify-center md:justify-start">
+                    <img
+                        src={book.cover_image ? book.cover_image : PlaceholderImage}
+                        alt={book.title}
+                        className="w-full max-w-50 md:w-48 md:max-w-none h-auto rounded-lg object-cover"
+                    />
+                </div>
 
                 <div className="flex-1">
-                    <h1 className="text-2xl font-semibold text-secondary mb-1 text-center">
+                    <h1 className="text-xl md:text-2xl font-semibold text-secondary mb-1 text-center md:text-left">
                         {book.title}
                     </h1>
-                    <p className="text-muted mb-2 text-center">by {book.author}</p>
-                    <p className="text-accent font-medium uppercase mb-1">
+                    <p className="text-muted mb-2 text-center md:text-left">by {book.author}</p>
+                    <p className="text-accent font-medium uppercase mb-1 text-center md:text-left">
                         {book?.genre?.replace("_", " ") ?? ''}
                     </p>
-                    <p className="text-light mb-4">{book.published_year ? `Published: ${book.published_year}` : ''}</p>
-                    <div className="text-secondary">{book?.description ?? ''}</div>
+                    <p className="text-light mb-4 text-center md:text-left">{book.published_year ? `Published: ${book.published_year}` : ''}</p>
+                    <div className="text-secondary text-sm md:text-base">{book?.description ?? ''}</div>
                 </div>
             </div>
 
             <div className="mt-6">
-                <div className="flex items-center justify-between mb-4">
-                    {isAuthenticated && (
-                        <>
-                            <h2 className="text-xl font-semibold text-secondary">My Notes</h2>
-                            {!isAddingNewNote && (
-                                <Button
-                                    variant="primary"
-                                    icon={<Plus size={16} />}
-                                    onClick={() => setIsAddingNewNote(true)}
-                                >
-                                    Add Note
-                                </Button>
-                            )}
-
-                        </>)}
-                </div>
+                {isAuthenticated && (
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+                        <h2 className="text-xl font-semibold text-secondary">My Notes</h2>
+                        {!isAddingNewNote && (
+                            <Button
+                                variant="primary"
+                                icon={<Plus size={16} />}
+                                onClick={() => setIsAddingNewNote(true)}
+                                className="w-full sm:w-auto"
+                            >
+                                Add Note
+                            </Button>
+                        )}
+                    </div>
+                )}
 
                 {isAuthenticated ? (
                     <>

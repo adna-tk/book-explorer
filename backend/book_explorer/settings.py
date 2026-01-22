@@ -58,6 +58,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
+    "EXCEPTION_HANDLER": "book_explorer.exceptions.custom_exception_handler",
 }
 
 MIDDLEWARE = [

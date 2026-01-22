@@ -68,18 +68,19 @@ export const Pagination: React.FC<PaginationProps> = ({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className={`flex items-center justify-center gap-2 ${className}`}>
+    <div className={`flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-2 ${className}`}>
       <Button
         variant="secondary"
         icon={<ChevronLeft size={16} />}
         onClick={handlePrevious}
         disabled={currentPage === 1}
         aria-label="Previous page"
+        className="w-full sm:w-auto"
       >
         
       </Button>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 flex-wrap justify-center">
         {pageNumbers.map((page, index) => {
           if (page === "...") {
             return (
@@ -96,7 +97,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             <button
               key={pageNum}
               onClick={() => onPageChange(pageNum)}
-              className={`min-w-[40px] px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`min-w-[36px] sm:min-w-[40px] px-2 sm:px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                 isActive
                   ? "bg-accent text-white"
                   : "bg-card text-secondary hover:bg-secondary/20"
@@ -117,6 +118,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         onClick={handleNext}
         disabled={currentPage === totalPages}
         aria-label="Next page"
+        className="w-full sm:w-auto"
       >
         
       </Button>

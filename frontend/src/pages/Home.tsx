@@ -53,19 +53,21 @@ export const Home: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col gap-5">
-      <div className="flex justify-between gap-x-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <Input
           placeholder="Search books by title or author"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="w-full md:flex-1"
         />
 
-        <div className="flex gap-x-4 w-full">
+        <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
           <CustomDropdown
             options={[{ value: '', label: 'All genres' }, ...(choices?.genres || [])]}
             value={genre}
             onChange={(v) => setGenre(String(v))}
             placeholder="Select genre"
+            className="w-full sm:w-auto"
           />
 
           <CustomDropdown
@@ -73,6 +75,7 @@ export const Home: React.FC = () => {
             value={bookType}
             onChange={(v) => setBookType(String(v))}
             placeholder="Select book type"
+            className="w-full sm:w-auto"
           />
 
           <CustomDropdown
@@ -90,6 +93,7 @@ export const Home: React.FC = () => {
             value={ordering}
             onChange={(v) => setOrdering(String(v))}
             placeholder="Sort by"
+            className="w-full sm:w-auto"
           />
         </div>
       </div>

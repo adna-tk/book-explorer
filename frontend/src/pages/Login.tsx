@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Button } from "../components/Button";
-import { LogIn } from "lucide-react";
+import { LogIn, Home } from "lucide-react";
 import { Input } from "../components/Input";
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export const Login: React.FC = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
     const { login, isLoading, error } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -17,12 +19,21 @@ export const Login: React.FC = () => {
     };
 
     return (
-        <div className="w-full bg-primary h-screen flex items-center justify-center gap-x-10">
+        <div className="w-full bg-primary min-h-screen flex items-center justify-center gap-x-10 px-4">
             <div className="max-w-1/2 w-full">
                 <div className="max-w-md gap-5 flex flex-col items-center mx-auto">
-                    <div className="flex flex-col items-center mb-10">
-                        <p className="text-muted text-sm mb-2 uppercase">Welcome to</p>
-                        <p className="text-6xl font-bold mb-0 text-accent">Book Explorer</p>
+                    <Button
+                        variant="secondary"
+                        icon={<Home size={16} />}
+                        onClick={() => navigate("/")}
+                        className="self-center mb-4"
+                    >
+                        Back to Books
+                    </Button>
+                    
+                    <div className="flex flex-col items-center mb-6 sm:mb-10">
+                        <p className="text-muted text-xs sm:text-sm mb-2 uppercase">Welcome to</p>
+                        <p className="text-4xl sm:text-5xl md:text-6xl font-bold mb-0 text-accent">Book Explorer</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">
@@ -58,10 +69,10 @@ export const Login: React.FC = () => {
                         </Button>
                     </form>
 
-                    <div className="mt-4 text-sm text-muted text-center">
+                    <div className="mt-4 text-xs sm:text-sm text-muted text-center">
                         <p>Test users:</p>
-                        <p>Username: john.doe@mail.com | Password: JohnDoe123</p>
-                        <p>Username: jane.doe@mail.com | Password: JaneJane123</p>
+                        <p className="wrap-break-word">john.doe@mail.com / JohnDoe123</p>
+                        <p className="wrap-break-word">jane.doe@mail.com / JaneJane123</p>
                     </div>
                 </div>
             </div>

@@ -263,6 +263,15 @@ def create_initial_books(apps, schema_editor):
         )
     )
 
+
+def reverse_create_initial_books(apps, schema_editor):
+    """
+    Reverse migration: Delete all books created by this migration.
+    """
+    Book = apps.get_model('books', 'Book')
+    Book.objects.all().delete()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -270,5 +279,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(create_initial_books),
+        migrations.RunPython(create_initial_books, reverse_create_initial_books),
     ]

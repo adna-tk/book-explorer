@@ -45,6 +45,15 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
             return [IsAuthenticated()]
         return [AllowAny()]
 
+    def get_queryset(self):
+        """
+        Optimize query for list view by excluding description field.
+        Description is only needed in detail view.
+        """
+        if self.request.method == 'GET' and 'pk' not in self.kwargs:
+            return Book.objects.all().defer('description')
+        return Book.objects.all()
+
     filter_backends = [
         DjangoFilterBackend,
         SearchFilter,

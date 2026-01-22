@@ -37,6 +37,9 @@ class UserNoteSerializer(serializers.ModelSerializer):
         model = UserNote
         fields = ['id', 'book', 'note', 'created_at', 'updated_at']
         read_only_fields = ['id', 'book', 'created_at', 'updated_at']
+        extra_kwargs = {
+            'book': {'read_only': True},
+        }
 
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
