@@ -11,7 +11,26 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 def home(request):
-    return HttpResponse("<h1>Welcome to Book Explorer</h1>")
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Book Explorer API</title>
+        <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+            h1 { color: #333; }
+            a { display: inline-block; margin: 10px; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+            a:hover { background: #0056b3; }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to Book Explorer</h1>
+        <p>Django REST Framework API is running.</p>
+        <a href="/admin/">Admin Panel</a>
+    </body>
+    </html>
+    """
+    return HttpResponse(html_content)
 
 class BookListCreateAPIView(generics.ListCreateAPIView):
     queryset = Book.objects.all()

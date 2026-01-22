@@ -16,7 +16,7 @@ export const BookDetails: React.FC = () => {
     const [isAddingNewNote, setIsAddingNewNote] = useState(false);
 
     const { data: book, isLoading, isError } = useBook(id!);
-    const { data: notes = [], isLoading: notesLoading } = useNotes(id);
+    const { data: notes = [], isLoading: notesLoading } = useNotes(isAuthenticated ? id : undefined);
     const createNoteMutation = useCreateNote();
     const updateNoteMutation = useUpdateNote();
     const deleteNoteMutation = useDeleteNote();
@@ -89,55 +89,65 @@ export const BookDetails: React.FC = () => {
                 </div>
             </div>
 
-            {isAuthenticated && (
-                <div className="mt-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-semibold text-secondary">My Notes</h2>
-                        {!isAddingNewNote && (
-                            <Button
-                                variant="primary"
-                                icon={<Plus size={16} />}
-                                onClick={() => setIsAddingNewNote(true)}
-                            >
-                                Add Note
-                            </Button>
-                        )}
-                    </div>
-
-                    {notesLoading ? (
-                        <Loader text="Loading notes..." />
-                    ) : (
-                        <div className="space-y-4">
-                            {isAddingNewNote && (
-                                <Note
-                                    createdAt={new Date().toISOString()}
-                                    value=""
-                                    onSave={handleCreateNote}
-                                    onCancel={() => setIsAddingNewNote(false)}
-                                    placeholder="Write your note about this book..."
-                                />
+            <div className="mt-6">
+                <div className="flex items-center justify-between mb-4">
+                    {isAuthenticated && (
+                        <>
+                            <h2 className="text-xl font-semibold text-secondary">My Notes</h2>
+                            {!isAddingNewNote && (
+                                <Button
+                                    variant="primary"
+                                    icon={<Plus size={16} />}
+                                    onClick={() => setIsAddingNewNote(true)}
+                                >
+                                    Add Note
+                                </Button>
                             )}
 
-                            {notes.map((note: UserNote) => (
-                                <Note
-                                    createdAt={note.created_at}
-                                    key={note.id}
-                                    value={note.note}
-                                    onSave={(noteText) => handleUpdateNote(note.id, noteText)}
-                                    onDelete={() => handleDeleteNote(note.id)}
-                                    placeholder="Write your note about this book..."
-                                />
-                            ))}
-
-                            {!isAddingNewNote && notes.length === 0 && (
-                                <div className="text-center text-muted py-8">
-                                    <p>No notes yet. Click "Add Note" to create your first note.</p>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                        </>)}
                 </div>
-            )}
+
+                {isAuthenticated ? (
+                    <>
+                        {notesLoading ? (
+                            <Loader text="Loading notes..." />
+                        ) : (
+                            <div className="space-y-4">
+                                {isAddingNewNote && (
+                                    <Note
+                                        createdAt={new Date().toISOString()}
+                                        value=""
+                                        onSave={handleCreateNote}
+                                        onCancel={() => setIsAddingNewNote(false)}
+                                        placeholder="Write your note about this book..."
+                                    />
+                                )}
+
+                                {notes.map((note: UserNote) => (
+                                    <Note
+                                        createdAt={note.created_at}
+                                        key={note.id}
+                                        value={note.note}
+                                        onSave={(noteText) => handleUpdateNote(note.id, noteText)}
+                                        onDelete={() => handleDeleteNote(note.id)}
+                                        placeholder="Write your note about this book..."
+                                    />
+                                ))}
+
+                                {!isAddingNewNote && notes.length === 0 && (
+                                    <p className="text-center text-sm text-muted py-8 italic">
+                                        No notes yet. Click "Add Note" to create your first note.
+                                    </p>
+                                )}
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <p className="text-center text-sm text-muted py-8 italic">
+                        In order to add your own personal notes to each book, please log in!
+                    </p>
+                )}
+            </div>
         </div>
     );
 };

@@ -91,9 +91,9 @@ export const Note: React.FC<NoteProps> = ({
                     </div>
                 </>
             ) : (
-                <div className="flex justify-between items-start gap-2">
-                    <div className="flex flex-col gap-2">
-                        <p className="whitespace-pre-wrap text-sm w-[80%] text-secondary">
+                <div className="flex justify-between items-start gap-6">
+                    <div className="flex flex-col gap-2 w-full">
+                        <p className="whitespace-pre-wrap text-sm w-full text-secondary">
                             {note}
                         </p>
                         <p className="text-xs text-muted">
