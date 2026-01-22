@@ -2,7 +2,7 @@
 
 Django REST Framework API for the Book Explorer application.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Create Virtual Environment
 
@@ -58,7 +58,7 @@ python manage.py runserver
 
 API will be available at `http://localhost:8000`
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 backend/
@@ -80,7 +80,7 @@ backend/
 └── .env              # Environment variables (not in git)
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -110,7 +110,7 @@ DATABASES = {
 }
 ```
 
-## 📚 API Endpoints
+## API Endpoints
 
 ### Authentication
 
@@ -135,7 +135,7 @@ DATABASES = {
 - `PUT /api/books/notes/{id}/` - Update note
 - `DELETE /api/books/notes/{id}/` - Delete note
 
-## 🛠️ Management Commands
+## Management Commands
 
 ### Create Test Users
 
@@ -162,7 +162,7 @@ Access admin at `http://localhost:8000/admin/`
 python manage.py test
 ```
 
-## 📦 Dependencies
+## Dependencies
 
 - `Django==4.2.27` - Web framework
 - `djangorestframework==3.16.1` - REST API framework
@@ -172,17 +172,17 @@ python manage.py test
 - `pillow==11.3.0` - Image processing
 - `python-dotenv==1.0.0` - Environment variables
 
-## 🔒 Security Features
+## Security Features
 
-- ✅ JWT authentication with token rotation
-- ✅ Environment-based secret key
-- ✅ Input validation on models and serializers
-- ✅ Permission-based access control
-- ✅ CORS configuration
-- ✅ SQL injection protection (Django ORM)
-- ✅ XSS protection
+- JWT authentication with token rotation
+- Environment-based secret key
+- Input validation on models and serializers
+- Permission-based access control
+- CORS configuration
+- SQL injection protection (Django ORM)
+- XSS protection
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Migration Errors
 
@@ -204,7 +204,7 @@ python manage.py runserver 8001
 
 Close any database connections or restart the server.
 
-## 📝 Development Tips
+## Development Tips
 
 ### Django Shell
 
@@ -231,7 +231,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-## 🚀 Production Deployment
+## Production Deployment
 
 1. Set `DEBUG=False` in `.env`
 2. Set secure `SECRET_KEY`

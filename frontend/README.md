@@ -2,7 +2,7 @@
 
 React TypeScript application built with Vite, React Query, and Tailwind CSS.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Install Dependencies
 
@@ -28,7 +28,7 @@ npm run dev
 
 Application will be available at `http://localhost:5173`
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 frontend/
@@ -59,28 +59,28 @@ frontend/
 └── vite.config.ts       # Vite configuration
 ```
 
-## 🛠️ Available Scripts
+## Available Scripts
 
 ### Development
 
 ```bash
-npm run dev          # Start development server
+npm run dev      
 ```
 
 ### Production
 
 ```bash
-npm run build        # Build for production
-npm run preview      # Preview production build
+npm run build      
+npm run preview     
 ```
 
 ### Code Quality
 
 ```bash
-npm run lint         # Run ESLint
+npm run lint        
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### API Base URL
 
@@ -105,7 +105,7 @@ export default defineConfig({
 })
 ```
 
-## 📚 Key Features
+## Key Features
 
 ### State Management
 
@@ -127,14 +127,14 @@ export default defineConfig({
 - Optimistic updates for notes
 - Skeleton loaders for better UX
 
-## 🎨 Styling
+## Styling
 
 - **Tailwind CSS** for utility-first styling
 - **CSS Variables** for theming
 - **Dark mode** support
 - **Responsive design**
 
-## 📦 Dependencies
+## Dependencies
 
 ### Core
 
@@ -156,7 +156,7 @@ export default defineConfig({
 - `typescript@~5.9.3` - Type checking
 - `eslint@^9.39.1` - Linting
 
-## 🔐 Authentication
+## Authentication
 
 ### Test Users
 
@@ -171,7 +171,7 @@ Tokens are stored in `localStorage`:
 
 **Note:** For production, consider using httpOnly cookies for better security.
 
-## 🧩 Components
+## Components
 
 ### Reusable Components
 
@@ -190,7 +190,7 @@ Tokens are stored in `localStorage`:
 - `AuthLayout` - Authentication page layout
 - `Header` - Navigation header with theme toggle
 
-## 🎯 Custom Hooks
+## Custom Hooks
 
 ### `useAuth`
 
@@ -220,93 +220,10 @@ const updateNote = useUpdateNote();
 const deleteNote = useDeleteNote();
 ```
 
-## 🐛 Troubleshooting
-
-### Port Already in Use
-
-Change port in `vite.config.ts` or kill the process:
-```bash
-lsof -ti:5173 | xargs kill -9
-```
-
-### API Connection Failed
-
-1. Check backend is running on `http://localhost:8000`
-2. Verify `VITE_API_BASE_URL` in `.env`
-3. Check CORS configuration in backend
-
-### Build Errors
-
-```bash
-rm -rf node_modules package-lock.json
-npm install
-```
-
-### Type Errors
-
-```bash
-npm run build  # Check TypeScript errors
-```
-
-## 🚀 Production Build
-
-### Build
-
-```bash
-npm run build
-```
-
-Output in `dist/` directory.
-
-### Deploy
-
-Serve `dist/` with any static file server:
-
-```bash
-# Using serve
-npx serve dist
-
-# Using Python
-cd dist && python -m http.server 8000
-
-# Using nginx
-# Configure nginx to serve dist/ directory
-```
-
 ### Environment Variables
 
 For production, set environment variables on your hosting platform:
 - `VITE_API_BASE_URL` - Your production API URL
-
-## 📝 Development Tips
-
-### Hot Module Replacement
-
-Vite provides instant HMR. Changes reflect immediately in the browser.
-
-### TypeScript
-
-Type definitions in:
-- `src/hooks/types.d.ts` - Global types
-- Component props are typed
-- API responses are typed
-
-### React Query DevTools
-
-Add to `App.tsx` for debugging:
-```typescript
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-
-// In component
-<ReactQueryDevtools initialIsOpen={false} />
-```
-
-## 🔒 Security Considerations
-
-- Tokens stored in `localStorage` (XSS vulnerable)
-- Consider httpOnly cookies for production
-- Input sanitization needed for user notes
-- Implement CSRF protection for mutations
 
 ---
 

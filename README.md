@@ -2,7 +2,7 @@
 
 A full-stack web application for browsing and managing books with user authentication, search, filtering, and personal notes.
 
-## 🚀 Tech Stack
+## Tech Stack
 
 - **Backend:** Django 4.2 + Django REST Framework
 - **Frontend:** React 19 + TypeScript + Vite
@@ -11,13 +11,13 @@ A full-stack web application for browsing and managing books with user authentic
 - **Styling:** Tailwind CSS
 - **Database:** SQLite (development)
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Python 3.9+
 - Node.js 18+
 - npm or yarn
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 book-explorer/
@@ -26,7 +26,7 @@ book-explorer/
 └── README.md         # This file
 ```
 
-## 🚦 Quick Start
+## Quick Start
 
 ### 1. Clone the repository
 
@@ -60,24 +60,24 @@ npm run dev
 
 Frontend will run on `http://localhost:5173`
 
-## 🔐 Default Test Users
+## Default Test Users
 
 The application includes test users created via migration:
 
 - **Username:** `john.doe@mail.com` | **Password:** `JohnDoe123`
 - **Username:** `jane.doe@mail.com` | **Password:** `JaneJane123`
 
-## 📚 Features
+## Features
 
-- ✅ User authentication (JWT)
-- ✅ Book browsing with pagination
-- ✅ Search and filter books
-- ✅ Sort books by various criteria
-- ✅ Personal notes for each book
-- ✅ Responsive design
-- ✅ Dark mode support
+- User authentication (JWT)
+- Book browsing with pagination
+- Search and filter books
+- Sort books by various criteria
+- Personal notes for each book
+- Responsive design
+- Dark mode support
 
-## 🔧 Configuration
+## Configuration
 
 ### Backend Environment Variables
 
@@ -98,7 +98,7 @@ Create a `.env` file in the `frontend/` directory (optional):
 VITE_API_BASE_URL=http://localhost:8000/api
 ```
 
-## 📖 API Endpoints
+## API Endpoints
 
 - `GET /api/books/` - List books (paginated)
 - `GET /api/books/{id}/` - Book details
@@ -112,7 +112,7 @@ VITE_API_BASE_URL=http://localhost:8000/api
 - `PUT /api/books/notes/{id}/` - Update note
 - `DELETE /api/books/notes/{id}/` - Delete note
 
-## 🧪 Development
+## Development
 
 ### Backend
 
@@ -129,7 +129,7 @@ cd frontend
 npm run dev
 ```
 
-## 📦 Production Build
+## Production Build
 
 ### Backend
 
@@ -149,7 +149,7 @@ npm run build
 # Serve the dist/ directory with a web server
 ```
 
-## 📝 Additional Commands
+## Additional Commands
 
 ### Create test users (Backend)
 
@@ -163,7 +163,7 @@ python manage.py create_test_users
 python manage.py shell
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Backend issues
 
@@ -176,22 +176,6 @@ python manage.py shell
 - **Port already in use:** Change port in `vite.config.ts`
 - **API connection failed:** Check `VITE_API_BASE_URL` in `.env`
 - **Build errors:** Clear `node_modules` and reinstall
-
-## 📄 License
-
-This project is a take-home assignment.
-
-## 👥 Contributing
-
-This is a demonstration project. For production use, consider:
-
-- Adding comprehensive tests
-- Implementing rate limiting
-- Adding API documentation (Swagger/OpenAPI)
-- Setting up CI/CD pipeline
-- Adding error tracking (Sentry)
-
----
 
 For detailed setup instructions, see:
 - [Backend README](./backend/README.md)
