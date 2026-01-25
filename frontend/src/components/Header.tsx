@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
                 icon={<LogOut size={16} />}
                 onClick={logout}
               >
-                <span>Logout</span>
+                Logout
               </Button>
             </div>
           ) : (

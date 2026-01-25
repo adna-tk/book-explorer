@@ -86,6 +86,9 @@ export const BookDetails: React.FC = () => {
                     <p className="text-accent font-medium uppercase mb-1 text-center md:text-left">
                         {book?.genre?.replace("_", " ") ?? ''}
                     </p>
+                    {book?.book_type && <p className="uppercase text-light text-sm mb-2 text-center md:text-left">
+                        ({book?.book_type?.replace("_", " ")})
+                    </p>}
                     <p className="text-light mb-4 text-center md:text-left">{book.published_year ? `Published: ${book.published_year}` : ''}</p>
                     <div className="text-secondary text-sm md:text-base">{book?.description ?? ''}</div>
                 </div>

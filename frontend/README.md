@@ -46,7 +46,7 @@ frontend/
 │   │   ├── useAuth.ts   # Authentication logic
 │   │   ├── useBooks.ts  # Books data fetching
 │   │   ├── useNotes.ts  # Notes CRUD operations
-│   │   └── useCurrentUser.ts
+│   │   └── useCurrentUser.ts  # Current user data
 │   ├── pages/           # Page components
 │   │   ├── Home.tsx     # Book listing page
 │   │   ├── BookDetails.tsx

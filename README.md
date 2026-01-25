@@ -105,7 +105,7 @@ VITE_API_BASE_URL=http://localhost:8000/api
 - `POST /api/books/` - Create book (authenticated)
 - `GET /api/books/choices/` - Get genre and book type choices
 - `POST /api/auth/token/` - Login
-- `POST /api/auth/register/` - Register
+- `POST /api/auth/token/refresh/` - Refresh access token
 - `GET /api/auth/me/` - Current user info
 - `GET /api/books/{id}/notes/` - Get user notes for a book
 - `POST /api/books/{id}/notes/` - Create note

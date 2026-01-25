@@ -63,7 +63,7 @@ API will be available at `http://localhost:8000`
 ```
 backend/
 ├── accounts/          # User authentication app
-│   ├── views.py      # Register, login, user profile
+│   ├── views.py      # Login, user profile
 │   ├── serializers.py
 │   └── urls.py
 ├── books/            # Books and notes app
@@ -114,7 +114,6 @@ DATABASES = {
 
 ### Authentication
 
-- `POST /api/auth/register/` - Register new user
 - `POST /api/auth/token/` - Login (get JWT tokens)
 - `POST /api/auth/token/refresh/` - Refresh access token
 - `GET /api/auth/me/` - Get current user info

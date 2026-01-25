@@ -7,8 +7,10 @@ from rest_framework.exceptions import NotFound
 from .models import Book, UserNote
 from .serializers import BookSerializer, UserNoteSerializer
 from .pagination import BookPageNumberPagination
+from .helpers import format_choices
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
+
 
 def home(request):
     html_content = """
@@ -32,10 +34,20 @@ def home(request):
     """
     return HttpResponse(html_content)
 
+
 class BookListCreateAPIView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     pagination_class = BookPageNumberPagination
+    filter_backends = [
+        DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter,
+    ]
+    search_fields = ["title", "author"]
+    filterset_fields = ["genre", "book_type"]
+    ordering_fields = ["title", "author", "published_year", "created_at"]
+    ordering = ["title"]
 
     def get_permissions(self):
         """
@@ -54,55 +66,11 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
             return Book.objects.all().defer('description')
         return Book.objects.all()
 
-    filter_backends = [
-        DjangoFilterBackend,
-        SearchFilter,
-        OrderingFilter,
-    ]
-
-    search_fields = ["title", "author"]
-
-    filterset_fields = ["genre", "book_type"]
-
-    ordering_fields = ["title", "author", "published_year", "created_at"]
-    ordering = ["title"]
-
 
 class BookDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [AllowAny]
-
-
-def _format_choices(choices):
-    """
-    Small helper to keep the value/label structure consistent everywhere.
-    """
-    return [{"value": value, "label": label} for value, label in choices]
-
-
-class GenreChoicesAPIView(APIView):
-    """
-    Returns the server-side source-of-truth for Book.genre choices.
-    Shape: [{ "value": "...", "label": "..." }, ...]
-    """
-
-    permission_classes = [AllowAny]
-
-    def get(self, request):
-        return Response(_format_choices(Book.GENRE_CHOICES))
-
-
-class BookTypeChoicesAPIView(APIView):
-    """
-    Returns the server-side source-of-truth for Book.book_type choices.
-    Shape: [{ "value": "...", "label": "..." }, ...]
-    """
-
-    permission_classes = [AllowAny]
-
-    def get(self, request):
-        return Response(_format_choices(Book.BOOK_TYPE_CHOICES))
 
 
 class BookChoicesAPIView(APIView):
@@ -114,14 +82,13 @@ class BookChoicesAPIView(APIView):
     }
     Frontend can call this once on app start and populate dropdowns.
     """
-
     permission_classes = [AllowAny]
 
     def get(self, request):
         return Response(
             {
-                "genres": _format_choices(Book.GENRE_CHOICES),
-                "book_types": _format_choices(Book.BOOK_TYPE_CHOICES),
+                "genres": format_choices(Book.GENRE_CHOICES),
+                "book_types": format_choices(Book.BOOK_TYPE_CHOICES),
             }
         )
 

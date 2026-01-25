@@ -21,9 +21,16 @@ export const Card: React.FC<CardProps> = ({ book, onClick }) => {
             <p className="mt-1 text-muted">{book.author}</p>
 
             <div className="mt-3 flex items-center justify-between">
-                <span className="text-xs font-medium uppercase tracking-wide text-accent">
-                    {book?.genre?.replace("_", " ") ?? ''}
-                </span>
+                <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium uppercase tracking-wide text-accent">
+                        {book?.genre?.replace("_", " ") ?? ''}
+                    </span>
+                    {book?.book_type && <span className="text-xs font-medium uppercase tracking-wide text-light">
+                        ({book?.book_type?.replace("_", " ")})
+                    </span>}
+                </div>
+
+
                 <span className="text-sm text-light">{book.published_year ? `Published: ${book.published_year}` : ''}</span>
             </div>
         </div>

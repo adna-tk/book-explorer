@@ -5,15 +5,6 @@ export interface LoginCredentials {
   password: string;
 }
 
-export interface RegisterData {
-  username: string;
-  email: string;
-  password: string;
-  password2: string;
-  first_name?: string;
-  last_name?: string;
-}
-
 export interface TokenResponse {
   access: string;
   refresh: string;
@@ -30,11 +21,6 @@ export interface User {
 export const authAPI = {
   login: async (credentials: LoginCredentials): Promise<TokenResponse> => {
     const response = await apiClient.post<TokenResponse>('/auth/token/', credentials);
-    return response.data;
-  },
-
-  register: async (data: RegisterData): Promise<{ message: string; user: User }> => {
-    const response = await apiClient.post<{ message: string; user: User }>('/auth/register/', data);
     return response.data;
   },
 
