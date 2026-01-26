@@ -42,7 +42,7 @@ export const Input: React.FC<InputProps> = ({
     return (
         <div className={twMerge("relative w-full", className)}>
             {icon && (
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-muted)]">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">
                     {icon}
                 </span>
             )}
@@ -69,7 +69,7 @@ export const Input: React.FC<InputProps> = ({
                     type="button"
                     tabIndex={-1}
                     onClick={() => setShowPassword((p) => !p)}
-                    className="absolute right-3 top-2/3 -translate-y-1/2 text-[var(--color-primary)] dark:text-[var(--color-secondary)] hover:text-[var(--color-accent)]"
+                    className="absolute right-3 top-2/3 -translate-y-1/2 text-primary dark:text-secondary hover:text-accent"
                 >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
