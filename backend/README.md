@@ -155,7 +155,7 @@ python manage.py runserver
 
 Access admin at `http://localhost:8000/admin/`
 
-## 🧪 Testing
+## Testing
 
 The project uses **pytest** and **pytest-django** for API testing.
 
