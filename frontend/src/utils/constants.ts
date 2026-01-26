@@ -6,6 +6,8 @@ export const PAGINATION = {
 
 export const DEBOUNCE_DELAY = 300;
 
+import type { DropdownOption } from "../api/types";
+
 export const SORT_OPTIONS: DropdownOption[] = [
   { value: '', label: 'Default (Title)' },
   { value: 'published_year', label: 'Year: Oldest First' },

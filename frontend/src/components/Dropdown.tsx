@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { ChevronDown } from "lucide-react";
+import type { DropdownOption } from "../api/types";
 
 interface DropdownProps {
     options: DropdownOption[];

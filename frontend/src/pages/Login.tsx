@@ -1,21 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "../components/Button";
 import { LogIn, Home } from "lucide-react";
 import { Input } from "../components/Input";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
+const loginSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
+
 export const Login: React.FC = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const { login, isLoading, error } = useAuth();
+    
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormData>({
+        resolver: zodResolver(loginSchema),
+    });
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const onSubmit = async (data: LoginFormData) => {
         try {
-            await login({ username, password });
-        } catch (err) { }
+            await login(data);
+        } catch (err) {
+            // Error is handled by useAuth hook
+        }
     };
 
     return (
@@ -36,7 +53,7 @@ export const Login: React.FC = () => {
                         <p className="text-4xl sm:text-5xl md:text-6xl font-bold mb-0 text-accent">Book Explorer</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">
+                    <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-5">
                         {error && (
                             <div className="bg-red-500/10 border border-red-500/50 text-red-500 text-sm p-3 rounded-lg">
                                 {error}
@@ -45,18 +62,16 @@ export const Login: React.FC = () => {
 
                         <Input
                             label="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
+                            {...register("username")}
                             disabled={isLoading}
+                            error={errors.username?.message}
                         />
                         <Input
                             label="Password"
                             type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
+                            {...register("password")}
                             disabled={isLoading}
+                            error={errors.password?.message}
                         />
                         <Button
                             type="submit"

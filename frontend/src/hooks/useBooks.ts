@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../api/client";
+import type { Book, Choice } from "../api/types";
 
 export interface BookQueryParams {
   search?: string;
@@ -21,19 +22,19 @@ export interface PaginatedResponse<T> {
 }
 
 const fetchBooks = async (params: BookQueryParams): Promise<PaginatedResponse<Book>> => {
-  const res = await apiClient.get("/books/", {
+  const res = await apiClient.get<PaginatedResponse<Book>>("/books/", {
     params,
   });
   return res.data;
 };
 
 const fetchBook = async (id: string): Promise<Book> => {
-  const res = await apiClient.get(`/books/${id}/`);
+  const res = await apiClient.get<Book>(`/books/${id}/`);
   return res.data;
 };
 
 const fetchChoices = async (): Promise<Choice> => {
-  const res = await apiClient.get("/books/choices/");
+  const res = await apiClient.get<Choice>("/books/choices/");
   return res.data;
 };
 

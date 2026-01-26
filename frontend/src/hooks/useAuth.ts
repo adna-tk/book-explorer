@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { authAPI, type LoginCredentials } from "../api/auth";
 
@@ -6,6 +6,29 @@ export const useAuth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => 
+    !!localStorage.getItem("access_token")
+  );
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAuthenticated(!!localStorage.getItem("access_token"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    
+    const interval = setInterval(() => {
+      const hasToken = !!localStorage.getItem("access_token");
+      if (hasToken !== isAuthenticated) {
+        setIsAuthenticated(hasToken);
+      }
+    }, 1000);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [isAuthenticated]);
 
   const login = useCallback(async (credentials: LoginCredentials) => {
     setError(null);
@@ -16,6 +39,7 @@ export const useAuth = () => {
       
       localStorage.setItem("access_token", response.access);
       localStorage.setItem("refresh_token", response.refresh);
+      setIsAuthenticated(true);
       
       navigate("/");
       
@@ -36,12 +60,9 @@ export const useAuth = () => {
   const logout = useCallback(() => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    setIsAuthenticated(false);
     navigate("/login");
   }, [navigate]);
-
-  const isAuthenticated = useMemo(() => {
-    return !!localStorage.getItem("access_token");
-  }, []);
 
   return {
     login,

@@ -1,5 +1,6 @@
 import React, { type MouseEventHandler } from "react";
 import PlaceholderImage from "../assets/placeholder.jpg"
+import type { Book } from "../api/types";
 
 interface CardProps {
     book: Book;

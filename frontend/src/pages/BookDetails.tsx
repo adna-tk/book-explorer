@@ -14,6 +14,7 @@ export const BookDetails: React.FC = () => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
     const [isAddingNewNote, setIsAddingNewNote] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const { data: book, isLoading, isError } = useBook(id!);
     const { data: notes = [], isLoading: notesLoading } = useNotes(isAuthenticated ? id : undefined);
@@ -21,30 +22,48 @@ export const BookDetails: React.FC = () => {
     const updateNoteMutation = useUpdateNote();
     const deleteNoteMutation = useDeleteNote();
 
+    React.useEffect(() => {
+        if (createNoteMutation.isSuccess || updateNoteMutation.isSuccess || deleteNoteMutation.isSuccess) {
+            setErrorMessage(null);
+        }
+    }, [createNoteMutation.isSuccess, updateNoteMutation.isSuccess, deleteNoteMutation.isSuccess]);
+
     const handleCreateNote = async (noteText: string) => {
         if (!id) return;
+        setErrorMessage(null);
         try {
             await createNoteMutation.mutateAsync({ bookId: id, note: noteText });
             setIsAddingNewNote(false);
-        } catch (error) {
-            console.error("Failed to create note:", error);
+        } catch (error: any) {
+            const message = error?.response?.data?.error?.message || 
+                          error?.response?.data?.detail || 
+                          "Failed to create note. Please try again.";
+            setErrorMessage(message);
         }
     };
 
     const handleUpdateNote = async (noteId: number, noteText: string) => {
+        setErrorMessage(null);
         try {
             await updateNoteMutation.mutateAsync({ noteId, note: noteText });
-        } catch (error) {
-            console.error("Failed to update note:", error);
+        } catch (error: any) {
+            const message = error?.response?.data?.error?.message || 
+                          error?.response?.data?.detail || 
+                          "Failed to update note. Please try again.";
+            setErrorMessage(message);
         }
     };
 
     const handleDeleteNote = async (noteId: number) => {
         if (!id || !book) return;
+        setErrorMessage(null);
         try {
             await deleteNoteMutation.mutateAsync({ noteId, bookId: book.id });
-        } catch (error) {
-            console.error("Failed to delete note:", error);
+        } catch (error: any) {
+            const message = error?.response?.data?.error?.message || 
+                          error?.response?.data?.detail || 
+                          "Failed to delete note. Please try again.";
+            setErrorMessage(message);
         }
     };
 
@@ -102,12 +121,21 @@ export const BookDetails: React.FC = () => {
                             <Button
                                 variant="primary"
                                 icon={<Plus size={16} />}
-                                onClick={() => setIsAddingNewNote(true)}
+                                onClick={() => {
+                                    setIsAddingNewNote(true);
+                                    setErrorMessage(null);
+                                }}
                                 className="w-full sm:w-auto"
                             >
                                 Add Note
                             </Button>
                         )}
+                    </div>
+                )}
+
+                {errorMessage && (
+                    <div className="mb-4 bg-red-500/10 border border-red-500/50 text-red-500 text-sm p-3 rounded-lg">
+                        {errorMessage}
                     </div>
                 )}
 
@@ -122,7 +150,10 @@ export const BookDetails: React.FC = () => {
                                         createdAt={new Date().toISOString()}
                                         value=""
                                         onSave={handleCreateNote}
-                                        onCancel={() => setIsAddingNewNote(false)}
+                                        onCancel={() => {
+                                            setIsAddingNewNote(false);
+                                            setErrorMessage(null);
+                                        }}
                                         placeholder="Write your note about this book..."
                                         isSaving={createNoteMutation.isPending}
                                     />

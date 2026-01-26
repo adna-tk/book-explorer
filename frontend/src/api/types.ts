@@ -1,4 +1,4 @@
-interface Book {
+export interface Book {
   id: number;
   title: string;
   author: string;
@@ -7,13 +7,15 @@ interface Book {
   published_year: number | null;
   cover_image?: string;
   description?: string;
+  created_at?: string;
 }
 
-interface DropdownOption {
+export interface DropdownOption {
   label: string;
   value: string;
 }
-interface Choice {
+
+export interface Choice {
   genres: DropdownOption[];
   book_types: DropdownOption[];
 }

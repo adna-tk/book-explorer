@@ -6,6 +6,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     variant?: "primary" | "secondary";
     label?: string;
     icon?: React.ReactNode;
+    error?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -14,6 +15,7 @@ export const Input: React.FC<InputProps> = ({
     className,
     label,
     type = "text",
+    error,
     ...props
 }) => {
     const isPassword = type === "password";
@@ -33,6 +35,10 @@ export const Input: React.FC<InputProps> = ({
             "bg-[var(--color-accent)] text-white border-[var(--color-accent)] placeholder:text-white/70",
     };
 
+    const errorClasses = error
+        ? "border-red-500/50 focus:border-red-500 focus:ring-red-500/40"
+        : "";
+
     return (
         <div className={twMerge("relative w-full", className)}>
             {icon && (
@@ -48,10 +54,15 @@ export const Input: React.FC<InputProps> = ({
                     baseClasses,
                     variants[variant],
                     icon && "pl-10",
-                    isPassword && "pr-10"
+                    isPassword && "pr-10",
+                    errorClasses
                 )}
                 {...props}
             />
+
+            {error && (
+                <p className="mt-1 text-sm text-red-500">{error}</p>
+            )}
 
             {isPassword && (
                 <button
