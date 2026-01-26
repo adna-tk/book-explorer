@@ -157,9 +157,76 @@ Access admin at `http://localhost:8000/admin/`
 
 ## 🧪 Testing
 
+The project uses **pytest** and **pytest-django** for API testing.
+
+### Running Tests
+
+Run all tests
 ```bash
-python manage.py test
+./venv/bin/pytest
 ```
+
+Run with verbose output
+```bash
+./venv/bin/pytest -v 
+```
+
+Run specific test file
+```bash
+./venv/bin/pytest books/tests/test_views.py
+```
+
+Run specific test
+```bash
+./venv/bin/pytest books/tests/test_views.py::TestBookListCreateAPIView::test_list_books_returns_success
+```
+
+### Test Coverage
+
+The project has **50 tests** covering:
+
+- **Books API** (20 tests)
+  - List, create, update, delete books
+  - Filtering, search, sorting
+  - Data validation
+  - Pagination
+
+- **User Notes API** (16 tests)
+  - List and create notes
+  - User isolation
+  - CRUD operations
+  - Authentication and permissions
+
+- **Authentication API** (10 tests)
+  - JWT token obtain and refresh
+  - Current user endpoint
+  - Credential validation
+
+- **Choices API** (3 tests)
+  - Get genres and book_types
+
+- **Home view** (1 test)
+
+### Test Structure
+
+```
+backend/
+├── books/
+│   └── tests/
+│       ├── test_views.py      # Books API tests
+│       └── test_notes.py      # Notes API tests
+├── accounts/
+│   └── tests/
+│       └── test_views.py      # Auth API tests
+└── pytest.ini                 # Pytest configuration
+```
+
+### Test Dependencies
+
+- `pytest==8.3.3`
+- `pytest-django==4.8.0`
+
+For more details, see [TESTING.md](./TESTING.md).
 
 ## Dependencies
 

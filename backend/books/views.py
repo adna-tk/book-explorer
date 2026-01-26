@@ -110,6 +110,8 @@ class BookNotesListAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         book_id = self.kwargs['book_id']
+        if not Book.objects.filter(id=book_id).exists():
+            raise NotFound("Book not found")
         serializer.save(user=self.request.user, book_id=book_id)
 
 
