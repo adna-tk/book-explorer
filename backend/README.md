@@ -4,20 +4,15 @@ Django REST Framework API for the Book Explorer application.
 
 ## Quick Start
 
-### 1. Create Virtual Environment
+### 1. Install Dependencies (Poetry)
+
+From the `backend/` directory:
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+poetry install --no-root
 ```
 
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Environment Setup
+### 2. Environment Setup
 
 Create a `.env` file in the `backend/` directory:
 
@@ -39,10 +34,10 @@ CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
-### 4. Database Setup
+### 3. Database Setup
 
 ```bash
-python manage.py migrate
+poetry run python manage.py migrate
 ```
 
 This will:
@@ -50,10 +45,10 @@ This will:
 - Run initial data migration (creates 16 sample books)
 - Create test users (john.doe@mail.com, jane.doe@mail.com)
 
-### 5. Run Development Server
+### 4. Run Development Server
 
 ```bash
-python manage.py runserver
+poetry run python manage.py runserver
 ```
 
 API will be available at `http://localhost:8000`
@@ -76,7 +71,8 @@ backend/
 │   ├── settings.py   # Django configuration
 │   └── urls.py       # Root URL configuration
 ├── manage.py
-├── requirements.txt
+├── pyproject.toml    # Poetry project & dependencies
+├── poetry.lock       # Locked dependency versions
 └── .env              # Environment variables (not in git)
 ```
 

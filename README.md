@@ -35,17 +35,20 @@ git clone <repository-url>
 cd book-explorer
 ```
 
-### 2. Set up Backend
+### 2. Set up Backend (Poetry)
 
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate 
-pip install -r requirements.txt
-cp .env.example .env             # On Windows run: copy .env.example .env
-python manage.py migrate
-python manage.py createsuperuser 
-python manage.py runserver
+# Install dependencies (no project install)
+poetry install --no-root
+
+# Create .env file (on Windows: copy .env.example .env)
+cp .env.example .env
+
+# Apply migrations and start server
+poetry run python manage.py migrate
+poetry run python manage.py createsuperuser
+poetry run python manage.py runserver
 ```
 
 Backend will run on `http://localhost:8000`
@@ -118,8 +121,7 @@ VITE_API_BASE_URL=http://localhost:8000/api
 
 ```bash
 cd backend
-source venv/bin/activate
-python manage.py runserver
+poetry run python manage.py runserver
 ```
 
 ### Frontend
@@ -135,10 +137,10 @@ npm run dev
 
 ```bash
 cd backend
-pip install -r requirements.txt
-python manage.py collectstatic
-python manage.py migrate
-# Use gunicorn or similar WSGI server
+poetry install --no-root --only main
+poetry run python manage.py collectstatic --noinput
+poetry run python manage.py migrate
+# Run with gunicorn/uvicorn or similar WSGI/ASGI server
 ```
 
 ### Frontend
@@ -154,21 +156,23 @@ npm run build
 ### Create test users (Backend)
 
 ```bash
-python manage.py create_test_users
+cd backend
+poetry run python manage.py create_test_users
 ```
 
 ### Django shell (Backend)
 
 ```bash
-python manage.py shell
+cd backend
+poetry run python manage.py shell
 ```
 
 ## Troubleshooting
 
 ### Backend issues
 
-- **Module not found:** Make sure virtual environment is activated
-- **Migration errors:** Run `python manage.py migrate`
+- **Module not found:** Make sure you're using `poetry run ...` from `backend/`
+- **Migration errors:** Run `poetry run python manage.py migrate`
 - **Secret key error:** Create `.env` file with `SECRET_KEY`
 
 ### Frontend issues
