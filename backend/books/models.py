@@ -53,9 +53,9 @@ class Book(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=['title', 'author']),
-            models.Index(fields=['genre', 'book_type']),
-            models.Index(fields=['published_year']),
+            models.Index(fields=['title', 'author'], name='books_book_title_author_idx'),
+            models.Index(fields=['genre', 'book_type'], name='books_book_genre_type_idx'),
+            models.Index(fields=['published_year'], name='books_book_published_year_idx'),
         ]
 
     def clean(self):

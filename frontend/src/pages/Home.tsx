@@ -8,6 +8,7 @@ import { CustomDropdown } from "../components/Dropdown";
 import { Pagination } from "../components/Pagination";
 import { useDebounce } from "../hooks/useDebounce";
 import { SORT_OPTIONS, DEBOUNCE_DELAY } from "../utils/constants";
+import type { Book } from "../api/types";
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();

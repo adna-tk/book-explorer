@@ -70,7 +70,14 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
 class BookDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [AllowAny]
+
+    def get_permissions(self):
+        """
+        Allow anyone to view book details, but require authentication for updates/deletes.
+        """
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
 
 class BookChoicesAPIView(APIView):

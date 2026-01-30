@@ -4,20 +4,15 @@ Django REST Framework API for the Book Explorer application.
 
 ## Quick Start
 
-### 1. Create Virtual Environment
+### 1. Install Dependencies (Poetry)
+
+From the `backend/` directory:
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+poetry install --no-root
 ```
 
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Environment Setup
+### 2. Environment Setup
 
 Create a `.env` file in the `backend/` directory:
 
@@ -35,14 +30,14 @@ CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 ```
 
 **Important:** Generate a secure secret key for production:
-```python
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```bash
+poetry run python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
-### 4. Database Setup
+### 3. Database Setup
 
 ```bash
-python manage.py migrate
+poetry run python manage.py migrate
 ```
 
 This will:
@@ -50,10 +45,10 @@ This will:
 - Run initial data migration (creates 16 sample books)
 - Create test users (john.doe@mail.com, jane.doe@mail.com)
 
-### 5. Run Development Server
+### 4. Run Development Server
 
 ```bash
-python manage.py runserver
+poetry run python manage.py runserver
 ```
 
 API will be available at `http://localhost:8000`
@@ -76,7 +71,8 @@ backend/
 │   ├── settings.py   # Django configuration
 │   └── urls.py       # Root URL configuration
 ├── manage.py
-├── requirements.txt
+├── pyproject.toml    # Poetry project & dependencies
+├── poetry.lock       # Locked dependency versions
 └── .env              # Environment variables (not in git)
 ```
 
@@ -139,7 +135,7 @@ DATABASES = {
 ### Create Test Users
 
 ```bash
-python manage.py create_test_users
+poetry run python manage.py create_test_users
 ```
 
 Creates:
@@ -149,8 +145,8 @@ Creates:
 ### Django Admin
 
 ```bash
-python manage.py createsuperuser
-python manage.py runserver
+poetry run python manage.py createsuperuser
+poetry run python manage.py runserver
 ```
 
 Access admin at `http://localhost:8000/admin/`
@@ -163,22 +159,22 @@ The project uses **pytest** and **pytest-django** for API testing.
 
 Run all tests
 ```bash
-./venv/bin/pytest
+poetry run pytest
 ```
 
 Run with verbose output
 ```bash
-./venv/bin/pytest -v 
+poetry run pytest -v 
 ```
 
 Run specific test file
 ```bash
-./venv/bin/pytest books/tests/test_views.py
+poetry run pytest books/tests/test_views.py
 ```
 
 Run specific test
 ```bash
-./venv/bin/pytest books/tests/test_views.py::TestBookListCreateAPIView::test_list_books_returns_success
+poetry run pytest books/tests/test_views.py::TestBookListCreateAPIView::test_list_books_returns_success
 ```
 
 ### Test Coverage
@@ -253,7 +249,7 @@ For more details, see [TESTING.md](./TESTING.md).
 ### Migration Errors
 
 ```bash
-python manage.py migrate --run-syncdb
+poetry run python manage.py migrate --run-syncdb
 ```
 
 ### Secret Key Error
@@ -263,7 +259,7 @@ Make sure `.env` file exists with `SECRET_KEY` variable.
 ### Port Already in Use
 
 ```bash
-python manage.py runserver 8001
+poetry run python manage.py runserver 8001
 ```
 
 ### Database Locked (SQLite)
@@ -275,7 +271,7 @@ Close any database connections or restart the server.
 ### Django Shell
 
 ```bash
-python manage.py shell
+poetry run python manage.py shell
 ```
 
 Example:
@@ -287,14 +283,14 @@ Book.objects.count()
 ### Check Configuration
 
 ```bash
-python manage.py check
+poetry run python manage.py check
 ```
 
 ### Create Migrations
 
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+poetry run python manage.py makemigrations
+poetry run python manage.py migrate
 ```
 
 ## Production Deployment

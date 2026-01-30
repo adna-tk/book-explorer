@@ -7,33 +7,35 @@ The project uses **pytest** and **pytest-django** for testing the Django REST Fr
 ## Installation
 
 ```bash
-pip install -r requirements.txt
+poetry install --no-root
 ```
 
-Dependencies:
+Test dependencies are included in the main dependencies in `pyproject.toml`:
 - `pytest==8.3.3`
 - `pytest-django==4.8.0`
+
+These are automatically installed when you run `poetry install --no-root`.
 
 ## Running Tests
 
 Run all tests
 ```bash
-./venv/bin/pytest
+poetry run pytest
 ```
 
 Run with verbose output
 ```bash
-./venv/bin/pytest -v 
+poetry run pytest -v 
 ```
 
 Run specific test file
 ```bash
-./venv/bin/pytest books/tests/test_views.py
+poetry run pytest books/tests/test_views.py
 ```
 
 Run specific test
 ```bash
-./venv/bin/pytest books/tests/test_views.py::TestBookListCreateAPIView::test_list_books_returns_success
+poetry run pytest books/tests/test_views.py::TestBookListCreateAPIView::test_list_books_returns_success
 ```
 
 

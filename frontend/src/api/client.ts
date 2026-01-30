@@ -29,9 +29,12 @@ apiClient.interceptors.response.use(
       const refreshToken = localStorage.getItem('refresh_token');
       if (refreshToken) {
         try {
-          const { access } = await authAPI.refreshToken(refreshToken);
+          const { access, refresh } = await authAPI.refreshToken(refreshToken);
           
           localStorage.setItem('access_token', access);
+          if (refresh) {
+            localStorage.setItem('refresh_token', refresh);
+          }
           
           originalRequest.headers.Authorization = `Bearer ${access}`;
           return apiClient(originalRequest);
