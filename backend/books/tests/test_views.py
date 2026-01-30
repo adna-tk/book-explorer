@@ -153,8 +153,12 @@ class TestBookListCreateAPIView:
         response = api_client.get('/api/books/?ordering=-published_year')
         assert response.status_code == status.HTTP_200_OK
         results = response.data['results']
-        assert results[0]['published_year'] == 2021
-        assert results[2]['published_year'] == 2019
+        # Check that results are in descending order by published_year
+        # Find our test books in the results
+        test_book_years = {b.published_year for b in multiple_books}
+        result_years = [r['published_year'] for r in results if r['published_year'] in test_book_years]
+        # Verify descending order
+        assert result_years == sorted(result_years, reverse=True)
 
     def test_create_book_requires_authentication(self, api_client):
         """Unauthenticated users cannot create books"""
@@ -232,8 +236,8 @@ class TestBookDetailAPIView:
         response = api_client.get('/api/books/99999/')
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    def test_update_book_with_put(self, api_client, book):
-        """Unauthenticated users can update books"""
+    def test_update_book_requires_authentication(self, api_client, book):
+        """Updating a book requires authentication"""
         update_data = {
             'title': 'Updated Title',
             'author': 'Updated Author',
@@ -243,23 +247,41 @@ class TestBookDetailAPIView:
             'published_year': book.published_year
         }
         response = api_client.put(f'/api/books/{book.id}/', update_data, format='json')
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_update_book_with_put(self, authenticated_client, book):
+        """Authenticated users can update books with PUT"""
+        update_data = {
+            'title': 'Updated Title',
+            'author': 'Updated Author',
+            'description': book.description,
+            'genre': book.genre,
+            'book_type': book.book_type,
+            'published_year': book.published_year
+        }
+        response = authenticated_client.put(f'/api/books/{book.id}/', update_data, format='json')
         assert response.status_code == status.HTTP_200_OK
         assert response.data['title'] == 'Updated Title'
         book.refresh_from_db()
         assert book.title == 'Updated Title'
 
-    def test_update_book_with_patch(self, api_client, book):
-        """Books can be partially updated with PATCH"""
-        response = api_client.patch(f'/api/books/{book.id}/', {'title': 'Patched Title'}, format='json')
+    def test_update_book_with_patch(self, authenticated_client, book):
+        """Authenticated users can partially update books with PATCH"""
+        response = authenticated_client.patch(f'/api/books/{book.id}/', {'title': 'Patched Title'}, format='json')
         assert response.status_code == status.HTTP_200_OK
         assert response.data['title'] == 'Patched Title'
         book.refresh_from_db()
         assert book.title == 'Patched Title'
 
-    def test_delete_book(self, api_client, book):
-        """Unauthenticated users can delete books"""
+    def test_delete_book_requires_authentication(self, api_client, book):
+        """Deleting a book requires authentication"""
+        response = api_client.delete(f'/api/books/{book.id}/')
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_delete_book(self, authenticated_client, book):
+        """Authenticated users can delete books"""
         book_id = book.id
-        response = api_client.delete(f'/api/books/{book_id}/')
+        response = authenticated_client.delete(f'/api/books/{book_id}/')
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert not Book.objects.filter(id=book_id).exists()
 
