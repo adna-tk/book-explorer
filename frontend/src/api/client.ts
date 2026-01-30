@@ -1,7 +1,13 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
-import { authAPI } from './auth';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+
+const refreshClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -9,6 +15,8 @@ export const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+let refreshPromise: Promise<string> | null = null;
 
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('access_token');
@@ -23,36 +31,62 @@ apiClient.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
+    if (originalRequest?.url?.includes('/auth/token/')) {
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const refreshToken = localStorage.getItem('refresh_token');
-      if (refreshToken) {
+      if (refreshPromise) {
         try {
-          const { access, refresh } = await authAPI.refreshToken(refreshToken);
-          
-          localStorage.setItem('access_token', access);
-          if (refresh) {
-            localStorage.setItem('refresh_token', refresh);
-          }
-          
-          originalRequest.headers.Authorization = `Bearer ${access}`;
+          const newToken = await refreshPromise;
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
           return apiClient(originalRequest);
-        } catch (refreshError) {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          
-          if (window.location.pathname !== '/login') {
-            window.location.href = '/login';
-          }
+        } catch {
+          return Promise.reject(error);
         }
-      } else {
+      }
+
+      const refreshToken = localStorage.getItem('refresh_token');
+      if (!refreshToken) {
         localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        
         if (window.location.pathname !== '/login') {
           window.location.href = '/login';
         }
+        return Promise.reject(error);
+      }
+
+      refreshPromise = refreshClient
+        .post<{ access: string; refresh?: string }>('/auth/token/refresh/', {
+          refresh: refreshToken,
+        })
+        .then((response) => {
+          const { access, refresh: newRefresh } = response.data;
+          localStorage.setItem('access_token', access);
+          if (newRefresh) {
+            localStorage.setItem('refresh_token', newRefresh);
+          }
+          return access;
+        })
+        .catch((refreshError) => {
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          if (window.location.pathname !== '/login') {
+            window.location.href = '/login';
+          }
+          throw refreshError;
+        })
+        .finally(() => {
+          refreshPromise = null;
+        });
+
+      try {
+        const newToken = await refreshPromise;
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        return apiClient(originalRequest);
+      } catch {
+        return Promise.reject(error);
       }
     }
 

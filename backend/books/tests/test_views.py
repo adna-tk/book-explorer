@@ -153,11 +153,8 @@ class TestBookListCreateAPIView:
         response = api_client.get('/api/books/?ordering=-published_year')
         assert response.status_code == status.HTTP_200_OK
         results = response.data['results']
-        # Check that results are in descending order by published_year
-        # Find our test books in the results
         test_book_years = {b.published_year for b in multiple_books}
         result_years = [r['published_year'] for r in results if r['published_year'] in test_book_years]
-        # Verify descending order
         assert result_years == sorted(result_years, reverse=True)
 
     def test_create_book_requires_authentication(self, api_client):
