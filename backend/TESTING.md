@@ -10,9 +10,11 @@ The project uses **pytest** and **pytest-django** for testing the Django REST Fr
 poetry install --no-root
 ```
 
-Test dependencies (declared in `pyproject.toml` under `[project.optional-dependencies].test`):
+Test dependencies are included in the main dependencies in `pyproject.toml`:
 - `pytest==8.3.3`
 - `pytest-django==4.8.0`
+
+These are automatically installed when you run `poetry install --no-root`.
 
 ## Running Tests
 

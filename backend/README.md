@@ -30,8 +30,8 @@ CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 ```
 
 **Important:** Generate a secure secret key for production:
-```python
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```bash
+poetry run python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
 ### 3. Database Setup
@@ -135,7 +135,7 @@ DATABASES = {
 ### Create Test Users
 
 ```bash
-python manage.py create_test_users
+poetry run python manage.py create_test_users
 ```
 
 Creates:
@@ -145,8 +145,8 @@ Creates:
 ### Django Admin
 
 ```bash
-python manage.py createsuperuser
-python manage.py runserver
+poetry run python manage.py createsuperuser
+poetry run python manage.py runserver
 ```
 
 Access admin at `http://localhost:8000/admin/`
@@ -159,22 +159,22 @@ The project uses **pytest** and **pytest-django** for API testing.
 
 Run all tests
 ```bash
-./venv/bin/pytest
+poetry run pytest
 ```
 
 Run with verbose output
 ```bash
-./venv/bin/pytest -v 
+poetry run pytest -v 
 ```
 
 Run specific test file
 ```bash
-./venv/bin/pytest books/tests/test_views.py
+poetry run pytest books/tests/test_views.py
 ```
 
 Run specific test
 ```bash
-./venv/bin/pytest books/tests/test_views.py::TestBookListCreateAPIView::test_list_books_returns_success
+poetry run pytest books/tests/test_views.py::TestBookListCreateAPIView::test_list_books_returns_success
 ```
 
 ### Test Coverage
@@ -249,7 +249,7 @@ For more details, see [TESTING.md](./TESTING.md).
 ### Migration Errors
 
 ```bash
-python manage.py migrate --run-syncdb
+poetry run python manage.py migrate --run-syncdb
 ```
 
 ### Secret Key Error
@@ -259,7 +259,7 @@ Make sure `.env` file exists with `SECRET_KEY` variable.
 ### Port Already in Use
 
 ```bash
-python manage.py runserver 8001
+poetry run python manage.py runserver 8001
 ```
 
 ### Database Locked (SQLite)
@@ -271,7 +271,7 @@ Close any database connections or restart the server.
 ### Django Shell
 
 ```bash
-python manage.py shell
+poetry run python manage.py shell
 ```
 
 Example:
@@ -283,14 +283,14 @@ Book.objects.count()
 ### Check Configuration
 
 ```bash
-python manage.py check
+poetry run python manage.py check
 ```
 
 ### Create Migrations
 
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+poetry run python manage.py makemigrations
+poetry run python manage.py migrate
 ```
 
 ## Production Deployment
